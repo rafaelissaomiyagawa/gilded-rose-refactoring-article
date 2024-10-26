@@ -1,5 +1,6 @@
 plugins {
     id 'groovy'
+    id 'com.adarshr.test-logger' version '4.0.0'
 }
 
 group = 'org.example'
@@ -18,4 +19,47 @@ dependencies {
 
 test {
     useJUnitPlatform()
+
+//    maxParallelForks = Runtime.runtime.availableProcessors().intdiv(2) ?: 1
+}
+
+testlogger {
+    showPassed = false
+    showFailed = true
+    showSkipped = false
+}
+
+
+if (!project.hasProperty('ci-environment')) {
+    test {
+        reports.html.required = false
+        reports.junitXml.required = false
+    }
+
+    task notifyTestResults {
+        doLast {
+            def title = "Gradle Test Notification"
+            // Determine the result message based on test outcomes
+            def testResult = tasks.test.state.executed && tasks.test.state.failure
+                    ? "🚨 TESTS FAILED! 🚨 Please check the logs for details."
+                    : "✅ All tests passed successfully!"
+
+            // Send the notification
+            def script = "display notification \"${testResult}\" with title \"${title}\""
+            exec {
+                commandLine 'osascript', '-e', script
+            }
+        }
+    }
+
+    tasks.test.doFirst {
+        // Clear the terminal screen using ANSI escape codes
+        println "\033[H\033[2J"
+        // Print the title for better logging
+        println "\n==============================="
+        println "✨ Terminal Screen Cleared ✨"
+        println "🚀 Starting Tests..."
+        println "==============================="
+    }
+    tasks.test.finalizedBy notifyTestResults
 }
