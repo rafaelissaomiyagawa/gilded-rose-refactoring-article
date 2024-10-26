@@ -4,6 +4,17 @@ import spock.lang.Specification
 
 class CommonItemSpecification extends Specification {
     def "No final do dia, sellIn e quality deve decrementar em 1"() {
+        given:
+        Item item = new Item("Common", sellIn, quality)
+        Item[] items = [item]
+
+        when:
+        new GildedRose(items).updateQuality()
+
+        then:
+        item.sellIn == expectedSellIn
+        item.quality == expectedQuality
+
         where:
         sellIn | expectedSellIn | quality | expectedQuality
         10     | 9              | 10      | 9
@@ -12,6 +23,17 @@ class CommonItemSpecification extends Specification {
     }
 
     def "Se sellIn for menor que zero, quality deve diminuir duas vezes mais rapido"() {
+        given:
+        Item item = new Item("Common", sellIn, quality)
+        Item[] items = [item]
+
+        when:
+        new GildedRose(items).updateQuality()
+
+        then:
+        item.sellIn == expectedSellIn
+        item.quality == expectedQuality
+
         where:
         sellIn | expectedSellIn | quality | expectedQuality
         0      | -1             | 10      | 8
@@ -20,6 +42,17 @@ class CommonItemSpecification extends Specification {
     }
 
     def "Quality não pode ser negativa"() {
+        given:
+        Item item = new Item("Common", sellIn, quality)
+        Item[] items = [item]
+
+        when:
+        new GildedRose(items).updateQuality()
+
+        then:
+        item.sellIn == expectedSellIn
+        item.quality == expectedQuality
+
         where:
         sellIn | expectedSellIn | quality | expectedQuality
         // Casos onde quality decrementa 1
