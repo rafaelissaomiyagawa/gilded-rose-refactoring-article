@@ -36,7 +36,7 @@ if (!project.hasProperty('ci-environment')) {
         reports.junitXml.required = false
     }
 
-    task notifyTestResults {
+    tasks.register('notifyTestResults') {
         doLast {
             def title = "Gradle Test Notification"
             // Determine the result message based on test outcomes
@@ -44,10 +44,15 @@ if (!project.hasProperty('ci-environment')) {
                     ? "🚨 TESTS FAILED! 🚨 Please check the logs for details."
                     : "✅ All tests passed successfully!"
 
-            // Send the notification
-            def script = "display notification \"${testResult}\" with title \"${title}\""
-            exec {
-                commandLine 'osascript', '-e', script
+            if (System.getProperty("os.name").toLowerCase().contains("mac")) {
+                def script = "display notification ${testResult} with title ${title}"
+                exec {
+                    commandLine 'osascript', '-e', script
+                }
+            } else {
+                exec {
+                    commandLine 'notify-send', title, testResult
+                }
             }
         }
     }
