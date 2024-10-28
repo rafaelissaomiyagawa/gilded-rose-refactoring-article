@@ -45,7 +45,7 @@ if (!project.hasProperty('ci-environment')) {
                     : "✅ All tests passed successfully!"
 
             if (System.getProperty("os.name").toLowerCase().contains("mac")) {
-                def script = "display notification ${testResult} with title ${title}"
+                def script = "display notification \"${testResult}\" with title \"${title}\""
                 exec {
                     commandLine 'osascript', '-e', script
                 }
