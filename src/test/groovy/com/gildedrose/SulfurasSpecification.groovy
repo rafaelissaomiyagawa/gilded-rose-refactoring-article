@@ -4,9 +4,9 @@ import spock.lang.Specification
 
 class SulfurasSpecification extends Specification {
 
-    def "Sulfuras, independente da situação, sempre terá quality 80"() {
+    def "Sulfuras, independente da situação, nunca altera o sellin e o quality"() {
         given:
-        Item item = new Item("Sulfuras, Hand of Ragnaros", sellIn, 50)
+        Item item = new Item("Sulfuras, Hand of Ragnaros", sellIn, quality)
         Item[] items = [item]
 
         when:
@@ -14,7 +14,7 @@ class SulfurasSpecification extends Specification {
 
         then:
         item.sellIn == expectedSellIn
-        item.quality == 80
+        item.quality == quality
 
         where:
         sellIn | expectedSellIn | quality
