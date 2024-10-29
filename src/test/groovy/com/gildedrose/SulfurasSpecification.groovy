@@ -13,13 +13,13 @@ class SulfurasSpecification extends Specification {
         new GildedRose(items).updateQuality()
 
         then:
-        item.sellIn == expectedSellIn
+        item.sellIn == sellIn
         item.quality == quality
 
         where:
-        sellIn | expectedSellIn | quality
-        1      | 1              | 50
-        0      | 0              | 60
-        -2     | -2             | 0
+        sellIn | quality
+        1      | 50
+        0      | 60
+        -2     | 0
     }
 }

@@ -77,7 +77,7 @@ class BackstagePassesSpecification extends Specification {
         sellIn | expectedSellIn | quality | expectedQuality
         0      | -1             | 10      | 0
         -1     | -2             | 0       | 0
-        -5     | 0 - 6          | 47      | 0
+        -5     | -6             | 47      | 0
     }
 
     def "Quality nao pode passar de 50, independente se incrementa 1, 2 ou 3 no quality"() {
